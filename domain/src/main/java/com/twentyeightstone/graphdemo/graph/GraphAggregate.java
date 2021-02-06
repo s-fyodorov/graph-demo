@@ -1,9 +1,10 @@
-package com.twentyeightstone.graphdemo.domain;
+package com.twentyeightstone.graphdemo.graph;
 
+import com.twentyeightstone.graphdemo.Aggregate;
 import lombok.AccessLevel;
 import lombok.Getter;
 
-public class GraphAggregate {
+public class GraphAggregate implements Aggregate {
 
     @Getter(AccessLevel.PACKAGE)
     private final Graph graph;
@@ -12,35 +13,35 @@ public class GraphAggregate {
         graph = new Graph(builder.graphId, builder.graphName);
     }
 
-    void addVertex(String name) {
+    public void addVertex(String name) {
         graph.addVertex(name);
     }
 
-    void addEdge(String sourceVertexName, String targetVertexName, String edgeName) {
+    public void addEdge(String sourceVertexName, String targetVertexName, String edgeName) {
         graph.addEdge(sourceVertexName, targetVertexName, edgeName);
     }
 
-    void removeVertex(String name) {
+    public void removeVertex(String name) {
         graph.removeVertex(name);
     }
 
-    void removeAllVertices() {
+    public void removeAllVertices() {
         graph.removeAllVertices();
     }
 
-    void removeAllDirectEdgesBetween(String firstVertexName, String secondVertexName) {
+    public void removeAllDirectEdgesBetween(String firstVertexName, String secondVertexName) {
         graph.removeAllDirectEdgesBetween(firstVertexName, secondVertexName);
     }
 
-    void removeAllOutComeEdgesForVertex(String vertexName) {
+    public void removeAllOutComeEdgesForVertex(String vertexName) {
         graph.removeAllOutComeEdgesForVertex(vertexName);
     }
 
-    void removeAllEdges() {
+    public void removeAllEdges() {
         graph.removeAllEdges();
     }
 
-    boolean isConnected() {
+    public boolean isConnected() {
         return graph.isConnected();
     }
 

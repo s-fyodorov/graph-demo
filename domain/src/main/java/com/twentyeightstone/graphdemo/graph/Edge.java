@@ -1,4 +1,4 @@
-package com.twentyeightstone.graphdemo.domain;
+package com.twentyeightstone.graphdemo.graph;
 
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.twentyeightstone.graphdemo.domain;
+package com.twentyeightstone.graphdemo.graph;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -75,7 +75,7 @@ class Graph {
         if(vertices.isEmpty()) { //todo return exception invalid state
             return false;
         }
-        return bfs().entrySet()
+        return breadthFirstSearch().entrySet()
                 .stream()
                 .allMatch(entry -> entry.getValue().containsAll(vertices));
     }
@@ -87,11 +87,11 @@ class Graph {
     // -- ReportPerVertex ->
     // ----- List<VertexName>
 
-    private Map<Vertex, List<Vertex>> bfs() {
-        return vertices.stream().collect(Collectors.toMap(identity(), this::bfs));
+    private Map<Vertex, List<Vertex>> breadthFirstSearch() {
+        return vertices.stream().collect(Collectors.toMap(identity(), this::breadthFirstSearch));
     }
 
-    private List<Vertex> bfs(Vertex vertex) {
+    private List<Vertex> breadthFirstSearch(Vertex vertex) {
         Map<Vertex, Boolean> visited = vertices.stream()
                 .collect(Collectors.toMap(identity(), v -> false));
 
