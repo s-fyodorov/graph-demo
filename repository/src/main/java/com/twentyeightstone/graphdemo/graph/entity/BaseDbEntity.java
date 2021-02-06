@@ -1,7 +1,7 @@
 package com.twentyeightstone.graphdemo.graph.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-@Getter
+@Data
 @MappedSuperclass
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,3 +23,4 @@ abstract public class BaseDbEntity {
     @Column(unique = true)
     private String name;
 }
+

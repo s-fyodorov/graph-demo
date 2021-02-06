@@ -15,5 +15,5 @@ public interface BaseRepository<T extends Aggregate> {
 
     List<Aggregate> retrieveAll();
 
-    Optional<Aggregate> retrieveById(Long id);
+    Aggregate retrieveById(Long id);
 }

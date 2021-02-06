@@ -1,6 +1,8 @@
 package com.twentyeightstone.graphdemo.graph.entity;
 
 import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
@@ -9,7 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-@Builder
+@Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class EdgeDbEntity extends BaseDbEntity {
 
@@ -20,4 +23,11 @@ public class EdgeDbEntity extends BaseDbEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "directed_to_vertex_id")
     private VertexDbEntity directedToVertex;
+
+    @Builder
+    public EdgeDbEntity(Long id, String name, VertexDbEntity directedFromVertex, VertexDbEntity directedToVertex) {
+        super(id, name);
+        this.directedFromVertex = directedFromVertex;
+        this.directedToVertex = directedToVertex;
+    }
 }

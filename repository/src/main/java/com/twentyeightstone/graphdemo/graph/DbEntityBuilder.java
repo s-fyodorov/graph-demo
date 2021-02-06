@@ -19,9 +19,12 @@ class DbEntityBuilder {
     List<EdgeDbEntity> buildEntities(GraphAggregate aggregate) {
         //todo throw exception if null graph
         Graph graph = aggregate.getGraph();
+
+        var graphDbEntity = buildGraph(graph);
+
         Map<String, VertexDbEntity> dbVertices = graph.getVertices()
                 .stream()
-                .map(vertex -> buildVertex(vertex, graph))
+                .map(vertex -> buildVertex(vertex, graphDbEntity))
                 .collect(Collectors.toMap(BaseDbEntity::getName, identity()));
 
         return graph.getVertices().stream()
@@ -30,12 +33,13 @@ class DbEntityBuilder {
                 .collect(Collectors.toList());
     }
 
-    private VertexDbEntity buildVertex(Vertex vertex, Graph graph) {
-        return VertexDbEntity.builder()
+    private VertexDbEntity buildVertex(Vertex vertex, GraphDbEntity graph) {
+        var vertexDbEntity = VertexDbEntity.builder()
                 .id(vertex.getId())
                 .name(vertex.getName())
-                .graph(buildGraph(graph))
                 .build();
+        graph.addVertex(vertexDbEntity);
+        return vertexDbEntity;
     }
 
     private GraphDbEntity buildGraph(Graph graph) {
@@ -52,9 +56,16 @@ class DbEntityBuilder {
     }
 
     private EdgeDbEntity buildEdge(Edge edge, Vertex vertexFrom, Map<String, VertexDbEntity> dbVertices) {
-        return EdgeDbEntity.builder()
+        var edgeDbEntity = EdgeDbEntity.builder()
+                .id(edge.getId())
+                .name(edge.getName())
                 .directedFromVertex(dbVertices.get(vertexFrom.getName()))
                 .directedToVertex(dbVertices.get(edge.getDirectedToVertex().getName()))
                 .build();
+        dbVertices.get(vertexFrom.getName())
+                .addOutComeEdge(edgeDbEntity);
+        dbVertices.get(edge.getDirectedToVertex().getName())
+                .addIncomeEdge(edgeDbEntity);
+        return edgeDbEntity;
     }
 }

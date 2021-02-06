@@ -33,10 +33,15 @@ class Graph {
         vertices.add(new Vertex(null, name));
     }
 
-    void addEdge(String sourceVertexName, String targetVertexName, String edgeName) {
+    void addVertex(Long id, String name) {
+        //todo validate name
+        vertices.add(new Vertex(id, name));
+    }
+
+    void addEdge(String edgeName, Long edgeId, String sourceVertexName, String targetVertexName) {
         Vertex sourceVertex = findVertexByName(sourceVertexName);
         Vertex targetVertex = findVertexByName(targetVertexName);
-        sourceVertex.addEdge(edgeName, targetVertex);
+        sourceVertex.addEdge(edgeId, edgeName, targetVertex);
     }
 
     void removeVertex(String name) {

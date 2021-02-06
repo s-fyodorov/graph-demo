@@ -25,8 +25,13 @@ class Vertex {
         this.name = name;
     }
 
-    void addEdge(String edgeName, Vertex destination) {
-        edges.add(new Edge(edgeName, destination));
+    void addEdge(Long edgeId, String edgeName, Vertex directedTo) {
+        edges.add(Edge.builder()
+                .id(edgeId)
+                .name(edgeName)
+                .directedToVertex(directedTo)
+                .build()
+        );
     }
 
     void removeDirectEdgesTo(Vertex directedTo) {

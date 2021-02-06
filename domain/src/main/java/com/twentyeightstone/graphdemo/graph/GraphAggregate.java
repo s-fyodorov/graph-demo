@@ -17,8 +17,16 @@ public class GraphAggregate implements Aggregate {
         graph.addVertex(name);
     }
 
-    public void addEdge(String sourceVertexName, String targetVertexName, String edgeName) {
-        graph.addEdge(sourceVertexName, targetVertexName, edgeName);
+    void addVertex(Long id, String name) {
+        graph.addVertex(id, name);
+    }
+
+    public void addEdge(String edgeName, String sourceVertexName, String targetVertexName) {
+        graph.addEdge(edgeName, null, sourceVertexName, targetVertexName);
+    }
+
+    void addEdge(String edgeName, Long edgeId, String sourceVertexName, String targetVertexName) {
+        graph.addEdge(edgeName, edgeId, sourceVertexName, targetVertexName);
     }
 
     public void removeVertex(String name) {
@@ -46,10 +54,10 @@ public class GraphAggregate implements Aggregate {
     }
 
     public static class GraphBuilder {
-        private long graphId;
+        private Long graphId;
         private String graphName;
 
-        public GraphBuilder withId(long id) {
+        public GraphBuilder withId(Long id) {
             graphId = id;
             return this;
         }
