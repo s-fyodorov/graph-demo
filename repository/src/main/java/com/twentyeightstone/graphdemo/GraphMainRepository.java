@@ -1,8 +1,13 @@
-package com.twentyeightstone.graphdemo.graph;
+package com.twentyeightstone.graphdemo;
 
 import com.twentyeightstone.graphdemo.Aggregate;
-import com.twentyeightstone.graphdemo.graph.entity.GraphDbEntity;
-import com.twentyeightstone.graphdemo.repository.BaseRepository;
+import com.twentyeightstone.graphdemo.dao.EdgeDAO;
+import com.twentyeightstone.graphdemo.dao.GraphDAO;
+import com.twentyeightstone.graphdemo.entities.GraphDbEntity;
+import com.twentyeightstone.graphdemo.graph.DbEntityBuilder;
+import com.twentyeightstone.graphdemo.graph.DomainBuilder;
+import com.twentyeightstone.graphdemo.graph.GraphAggregate;
+import com.twentyeightstone.graphdemo.repository.GraphRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @AllArgsConstructor
-class GraphRepository implements BaseRepository<GraphAggregate> {
+class GraphMainRepository implements GraphRepository {
 
     private final GraphDAO graphDAO;
     private final EdgeDAO edgeDAO;
@@ -24,7 +29,7 @@ class GraphRepository implements BaseRepository<GraphAggregate> {
     }
 
     @Override
-    public List<Aggregate> retrieveAll() {
+    public List<GraphAggregate> retrieveAll() {
         return graphDAO.findAll()
                 .stream()
                 .map(domainBuilder::buildAggregate)
@@ -32,12 +37,11 @@ class GraphRepository implements BaseRepository<GraphAggregate> {
     }
 
     @Override
-    public Aggregate retrieveById(Long id) {
+    public GraphAggregate retrieveById(Long id) {
         GraphDbEntity dbEntity = graphDAO.findById(id)
                 .orElseThrow(() -> new RuntimeException("")); //todo proper exception
         return domainBuilder.buildAggregate(dbEntity);
     }
-
 
 
 }

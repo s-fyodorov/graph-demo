@@ -1,4 +1,4 @@
-package com.twentyeightstone.graphdemo.graph.entity;
+package com.twentyeightstone.graphdemo.entities;
 
 import lombok.Builder;
 import lombok.Data;

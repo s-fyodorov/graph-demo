@@ -1,12 +1,12 @@
 package com.twentyeightstone.graphdemo.graph;
 
-import com.twentyeightstone.graphdemo.graph.entity.GraphDbEntity;
+import com.twentyeightstone.graphdemo.entities.GraphDbEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DomainBuilder {
 
-    GraphAggregate buildAggregate(GraphDbEntity graphDbEntity) {
+    public GraphAggregate buildAggregate(GraphDbEntity graphDbEntity) {
         var graphAggregate = new GraphAggregate.GraphBuilder()
                 .withId(graphDbEntity.getId())
                 .withName(graphDbEntity.getName())

@@ -1,9 +1,9 @@
 package com.twentyeightstone.graphdemo.graph;
 
-import com.twentyeightstone.graphdemo.graph.entity.BaseDbEntity;
-import com.twentyeightstone.graphdemo.graph.entity.EdgeDbEntity;
-import com.twentyeightstone.graphdemo.graph.entity.GraphDbEntity;
-import com.twentyeightstone.graphdemo.graph.entity.VertexDbEntity;
+import com.twentyeightstone.graphdemo.entities.BaseDbEntity;
+import com.twentyeightstone.graphdemo.entities.EdgeDbEntity;
+import com.twentyeightstone.graphdemo.entities.GraphDbEntity;
+import com.twentyeightstone.graphdemo.entities.VertexDbEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
 import static java.util.function.Function.identity;
 
 @Component
-class DbEntityBuilder {
+public class DbEntityBuilder {
 
-    List<EdgeDbEntity> buildEntities(GraphAggregate aggregate) {
+    public List<EdgeDbEntity> buildEntities(GraphAggregate aggregate) {
         //todo throw exception if null graph
         Graph graph = aggregate.getGraph();
 
