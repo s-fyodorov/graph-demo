@@ -1,9 +1,6 @@
 package com.twentyeightstone.graphdemo;
 
-import com.twentyeightstone.graphdemo.Aggregate;
-import com.twentyeightstone.graphdemo.dao.EdgeDAO;
 import com.twentyeightstone.graphdemo.dao.GraphDAO;
-import com.twentyeightstone.graphdemo.entities.GraphDbEntity;
 import com.twentyeightstone.graphdemo.graph.DbEntityBuilder;
 import com.twentyeightstone.graphdemo.graph.DomainBuilder;
 import com.twentyeightstone.graphdemo.graph.GraphAggregate;
@@ -20,13 +17,12 @@ import java.util.stream.Collectors;
 class GraphMainRepository implements GraphRepository {
 
     private final GraphDAO graphDAO;
-    private final EdgeDAO edgeDAO;
     private final DbEntityBuilder dbEntityBuilder;
     private final DomainBuilder domainBuilder;
 
     @Override
     public void save(GraphAggregate aggregate) {
-        edgeDAO.saveAll(dbEntityBuilder.buildEntities(aggregate));
+        graphDAO.save(dbEntityBuilder.buildEntity(aggregate));
     }
 
     @Override

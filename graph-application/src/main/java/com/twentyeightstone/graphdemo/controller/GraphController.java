@@ -1,5 +1,7 @@
 package com.twentyeightstone.graphdemo.controller;
 
+import com.twentyeightstone.graphdemo.dto.input.EdgeInputDTO;
+import com.twentyeightstone.graphdemo.dto.input.VertexInputDTO;
 import com.twentyeightstone.graphdemo.dto.output.GraphOutputDTO;
 import com.twentyeightstone.graphdemo.service.GraphService;
 import lombok.AllArgsConstructor;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,31 +32,31 @@ public class GraphController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<GraphOutputDTO> getGraphStructure(@PathVariable @NotNull Long id) {
-        return ResponseEntity.ok(graphService.getGraphStructure(id));
+    @GetMapping("/{graphId}")
+    public ResponseEntity<GraphOutputDTO> getGraphStructure(@PathVariable @NotNull Long graphId) {
+        return ResponseEntity.ok(graphService.getGraphStructure(graphId));
     }
 
-    @PostMapping("/{id}/vertex")
+    @PostMapping("/{graphId}/vertex")
     public ResponseEntity<Void> addVertex(
-            @RequestParam @NotBlank @Valid String vertexName,
-            @PathVariable @NotNull @Valid Long id
+            @RequestBody @Valid VertexInputDTO vertex,
+            @PathVariable @NotNull @Valid Long graphId
     ) {
-        graphService.addVertex(vertexName, id);
+        graphService.addVertex(vertex.getVertexName(), graphId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PostMapping("/{id}/edge")
+    @PostMapping("/{graphId}/edge")
     public ResponseEntity<Void> addEdge(
-            @RequestParam @NotBlank @Valid String vertexName,
-            @PathVariable @NotNull @Valid Long id
+            @RequestBody @Valid EdgeInputDTO edge,
+            @PathVariable @NotNull @Valid Long graphId
     ) {
-        graphService.addVertex(vertexName, id);
+        graphService.addEdge(edge, graphId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/{id}/isConnected")
-    public ResponseEntity<Boolean> isGraphConnected(@PathVariable @NotNull @Valid Long id) {
-        return ResponseEntity.ok(graphService.isGraphConnected(id));
+    @GetMapping("/{graphId}/isConnected")
+    public ResponseEntity<Boolean> isGraphConnected(@PathVariable @NotNull @Valid Long graphId) {
+        return ResponseEntity.ok(graphService.isGraphConnected(graphId));
     }
 }

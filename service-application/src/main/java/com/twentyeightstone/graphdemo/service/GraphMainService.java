@@ -44,7 +44,7 @@ public class GraphMainService implements GraphService {
     @Override
     public void addEdge(EdgeInputDTO dto, Long graphId) {
         GraphAggregate aggregate = getGraphById(graphId);
-        aggregate.addEdge(dto.getEdgeName(), dto.getTailVertexName(), dto.getHeadVertexName());
+        aggregate.addEdge(dto.getEdgeName(), dto.getFromVertexName(), dto.getToVertexName());
         repository.save(aggregate);
     }
 
