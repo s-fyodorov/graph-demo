@@ -3,6 +3,7 @@ package com.twentyeightstone.graphdemo.repository;
 import com.twentyeightstone.graphdemo.Aggregate;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Repository is suitable for storing and retrieving aggregates only
@@ -14,5 +15,5 @@ public interface BaseRepository<T extends Aggregate> {
 
     List<T> retrieveAll();
 
-    T retrieveById(Long id);
+    Optional<T> retrieveById(Long id);
 }

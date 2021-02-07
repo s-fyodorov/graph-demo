@@ -1,8 +1,8 @@
 package com.twentyeightstone.graphdemo.graph;
 
 import com.twentyeightstone.graphdemo.dto.output.EdgeOutputDTO;
-import com.twentyeightstone.graphdemo.dto.output.GraphOutputDTO;
 import com.twentyeightstone.graphdemo.dto.output.VertexOutputDTO;
+import com.twentyeightstone.graphdemo.dto.output.GraphOutputDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,6 +18,7 @@ public class OutputDtoBuilder {
                 .name(graph.getGraphName())
                 .vertices(buildOutputVertexDTOs(graph.getVertices()))
                 .build();
+
     }
 
     private List<VertexOutputDTO> buildOutputVertexDTOs(List<Vertex> vertices) {

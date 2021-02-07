@@ -5,9 +5,13 @@ import com.twentyeightstone.graphdemo.dto.output.GraphOutputDTO;
 
 public interface GraphService {
 
-    GraphOutputDTO getGraphStructure(Long id);
+    GraphOutputDTO getGraphStructure(Long graphId);
+
+    void createGraph(String graphName);
 
     void addVertex(String vertexName, Long graphId);
 
-    public void addEdge(EdgeInputDTO dto, Long graphId);
+    void addEdge(EdgeInputDTO dto, Long graphId);
+
+    boolean isGraphConnected(Long graphId);
 }

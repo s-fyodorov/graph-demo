@@ -8,16 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Getter(AccessLevel.PACKAGE)
 class Vertex {
 
-    @Getter(AccessLevel.PACKAGE)
     private final Long id;
 
-    @Getter(AccessLevel.PACKAGE)
     @EqualsAndHashCode.Include
     private final String name;
 
-    @Getter(AccessLevel.PACKAGE)
     private final List<Edge> edges = new ArrayList<>();
 
     Vertex(Long id, String name) {

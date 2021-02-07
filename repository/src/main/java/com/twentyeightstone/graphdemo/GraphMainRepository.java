@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -37,10 +38,14 @@ class GraphMainRepository implements GraphRepository {
     }
 
     @Override
-    public GraphAggregate retrieveById(Long id) {
-        GraphDbEntity dbEntity = graphDAO.findById(id)
-                .orElseThrow(() -> new RuntimeException("")); //todo proper exception
-        return domainBuilder.buildAggregate(dbEntity);
+    public Optional<GraphAggregate> retrieveById(Long id) {
+        return graphDAO.findById(id)
+                .map(domainBuilder::buildAggregate);
+    }
+
+    @Override
+    public boolean isExistByName(String name) {
+        return graphDAO.findGraphDbEntityByName(name).isPresent();
     }
 
 

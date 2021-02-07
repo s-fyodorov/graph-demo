@@ -16,7 +16,6 @@ import java.util.List;
 
 @Entity
 @Data
-@Builder
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class VertexDbEntity extends BaseDbEntity {

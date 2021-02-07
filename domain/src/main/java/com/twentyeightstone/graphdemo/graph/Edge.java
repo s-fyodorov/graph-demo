@@ -16,8 +16,4 @@ class Edge {
     @Getter(AccessLevel.PACKAGE)
     private final Vertex directedToVertex;
 
-//    Edge(Long id, String name, Vertex destination) {
-//        this.name = name;
-//        this.directedToVertex = destination;
-//    }
 }
