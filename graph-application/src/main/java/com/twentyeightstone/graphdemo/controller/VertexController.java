@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/graph/{graphId}/vertex")
+@RequestMapping("/graph/id/{graphId}/vertex")
 @AllArgsConstructor
 public class VertexController {
 

@@ -3,15 +3,16 @@ package com.twentyeightstone.graphdemo.graph;
 import com.twentyeightstone.graphdemo.dto.output.EdgeOutputDTO;
 import com.twentyeightstone.graphdemo.dto.output.VertexOutputDTO;
 import com.twentyeightstone.graphdemo.dto.output.GraphOutputDTO;
+import com.twentyeightstone.graphdemo.service.GraphStructureOutputBuilder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class OutputDtoBuilder {
+class GraphOutputDtoBuilder implements GraphStructureOutputBuilder {
 
-    public GraphOutputDTO buildFullGraphDTO(GraphAggregate aggregate) {
+    public GraphOutputDTO build(GraphAggregate aggregate) {
         Graph graph = aggregate.getGraph();
         return GraphOutputDTO.builder()
                 .id(graph.getGraphId())

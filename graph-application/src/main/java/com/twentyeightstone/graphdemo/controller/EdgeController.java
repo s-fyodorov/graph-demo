@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/graph/{graphId}/edge")
+@RequestMapping("/graph/id/{graphId}/edge")
 @AllArgsConstructor
 public class EdgeController {
 

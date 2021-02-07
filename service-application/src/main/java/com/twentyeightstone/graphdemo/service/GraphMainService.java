@@ -4,14 +4,19 @@ import com.twentyeightstone.graphdemo.dto.input.DeleteEdgeDTO;
 import com.twentyeightstone.graphdemo.dto.input.NewEdgeDTO;
 import com.twentyeightstone.graphdemo.dto.input.VertexInputDTO;
 import com.twentyeightstone.graphdemo.dto.output.BaseOutputDTO;
-import com.twentyeightstone.graphdemo.graph.GraphAggregate;
-import com.twentyeightstone.graphdemo.graph.OutputDtoBuilder;
-import com.twentyeightstone.graphdemo.repository.GraphRepository;
 import com.twentyeightstone.graphdemo.dto.output.GraphOutputDTO;
+import com.twentyeightstone.graphdemo.exception.ApplicationException;
+import com.twentyeightstone.graphdemo.exception.EntityNotFoundException;
+import com.twentyeightstone.graphdemo.exception.UniqueNameConstraintException;
+import com.twentyeightstone.graphdemo.graph.GraphAggregate;
+import com.twentyeightstone.graphdemo.repository.GraphRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static java.lang.String.format;
 
 @Service
 @AllArgsConstructor
@@ -19,7 +24,7 @@ class GraphMainService implements GraphService {
 
     private final GraphRepository repository;
 
-    private final OutputDtoBuilder outputDtoBuilder;
+    private final GraphStructureOutputBuilder outputDtoBuilder;
 
     @Override
     public List<BaseOutputDTO> retrieveGraphHeaderList() {
@@ -29,28 +34,30 @@ class GraphMainService implements GraphService {
     @Override
     public GraphOutputDTO getGraphStructure(Long graphId) {
         GraphAggregate aggregate = getGraphById(graphId);
-        return outputDtoBuilder.buildFullGraphDTO(aggregate);
+        return outputDtoBuilder.build(aggregate);
     }
 
     @Override
     public GraphOutputDTO getGraphStructure(String graphName) {
         GraphAggregate aggregate = repository.retrieveByName(graphName)
-                .orElseThrow(() -> new RuntimeException("")); //todo fixit
-        return outputDtoBuilder.buildFullGraphDTO(aggregate);
+                .orElseThrow(() ->
+                        new EntityNotFoundException(format("Graph with name %s is not found", graphName))
+                );
+        return outputDtoBuilder.build(aggregate);
     }
 
     @Override
-//    @Transactional
+    @Transactional
     public BaseOutputDTO createGraph(String graphName) {
-        if(repository.isExistByName(graphName)) {
-            throw new RuntimeException(""); //todo fixme
+        if (repository.isExistByName(graphName)) {
+            throw new UniqueNameConstraintException("Graph with name %s already exists");
         }
         var aggregate = new GraphAggregate.GraphBuilder()
                 .withName(graphName)
                 .build();
         repository.save(aggregate);
         return repository.retrieveGraphHeaderByName(graphName)
-                .orElseThrow(() -> new RuntimeException("APP exc")); // todo fixit
+                .orElseThrow(() -> new ApplicationException("Invalid application state"));
     }
 
     @Override
@@ -100,6 +107,6 @@ class GraphMainService implements GraphService {
 
     private GraphAggregate getGraphById(Long id) {
         return repository.retrieveById(id)
-                .orElseThrow(() -> new RuntimeException("")); // todo fix
+                .orElseThrow(() -> new EntityNotFoundException(format("Graph with id %s is not found", id)));
     }
 }

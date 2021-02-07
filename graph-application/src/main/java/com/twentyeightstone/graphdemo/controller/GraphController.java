@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @RestController
@@ -26,9 +24,9 @@ public class GraphController {
     private final GraphService graphService;
 
     @PostMapping
-    public ResponseEntity<Void> createGraph(@RequestParam @NotBlank @Valid String graphName) {
-        graphService.createGraph(graphName);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<BaseOutputDTO> createGraph(@RequestParam String graphName) {
+        var createdGraph = graphService.createGraph(graphName);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdGraph);
     }
 
     @GetMapping
@@ -37,26 +35,25 @@ public class GraphController {
         return ResponseEntity.ok(graphList);
     }
 
-    @DeleteMapping("/{graphId}")
-    public ResponseEntity<Void> deleteGraph(@PathVariable Long graphId) {
-        graphService.deleteGraph(graphId);
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/{graphId}")
+    @GetMapping("/id/{graphId}")
     public ResponseEntity<GraphOutputDTO> getGraphStructure(@PathVariable Long graphId) {
         return ResponseEntity.ok(graphService.getGraphStructure(graphId));
     }
 
-    @GetMapping("/{graphName}")
+    @GetMapping("/name/{graphName}")
     public ResponseEntity<GraphOutputDTO> getGraphStructure(@PathVariable String graphName) {
         return ResponseEntity.ok(graphService.getGraphStructure(graphName));
     }
 
-    @GetMapping("/{graphId}/isConnected")
+    @GetMapping("/id/{graphId}/isConnected")
     public ResponseEntity<Boolean> isGraphConnected(@PathVariable Long graphId) {
         return ResponseEntity.ok(graphService.isGraphConnected(graphId));
     }
 
+    @DeleteMapping("/id/{graphId}")
+    public ResponseEntity<Void> deleteGraph(@PathVariable Long graphId) {
+        graphService.deleteGraph(graphId);
+        return ResponseEntity.ok().build();
+    }
 
 }

@@ -6,9 +6,9 @@ import lombok.Getter;
 
 import java.util.Set;
 
+@Getter(AccessLevel.PACKAGE)
 public class GraphAggregate implements Aggregate {
 
-    @Getter(AccessLevel.PACKAGE)
     private final Graph graph;
 
     private GraphAggregate(GraphBuilder builder) {

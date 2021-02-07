@@ -1,5 +1,8 @@
 package com.twentyeightstone.graphdemo.graph;
 
+import com.twentyeightstone.graphdemo.exception.InconsistentStateException;
+import com.twentyeightstone.graphdemo.exception.EntityNotFoundException;
+import com.twentyeightstone.graphdemo.exception.UniqueNameConstraintException;
 import lombok.AccessLevel;
 import lombok.Getter;
 
@@ -12,20 +15,18 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static java.lang.String.format;
 import static java.util.function.Function.identity;
 
+@Getter(AccessLevel.PACKAGE)
 class Graph {
 
-    @Getter(AccessLevel.PACKAGE)
     private final Long graphId;
 
-    @Getter(AccessLevel.PACKAGE)
     private final String graphName;
 
-    @Getter(AccessLevel.PACKAGE)
     private final List<Vertex> vertices = new ArrayList<>();
 
-    @Getter(AccessLevel.PACKAGE)
     private final List<Vertex> removedVertices = new ArrayList<>();
 
     public Graph(Long graphId, String graphName) {
@@ -34,12 +35,12 @@ class Graph {
     }
 
     void addVertex(String name) {
-        //todo validate name
+        validateVertexName(name);
         vertices.add(new Vertex(null, name));
     }
 
     void addVertex(Long id, String name) {
-        //todo validate name
+        validateVertexName(name);
         vertices.add(new Vertex(id, name));
     }
 
@@ -80,7 +81,7 @@ class Graph {
     private Vertex findVertexByName(String name) {
         return vertices.stream().filter(vertex -> vertex.isEqualsByName(name))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("")); //todo throw correct exception
+                .orElseThrow(() -> new EntityNotFoundException(format("Vertex with name %s is not found in the graph", name)));
     }
 
     Set<Long> getRemovedVerticesIds() {
@@ -99,8 +100,8 @@ class Graph {
     }
 
     boolean isConnected() {
-        if(vertices.isEmpty()) { //todo return exception invalid state
-            return false;
+        if (vertices.isEmpty()) {
+            throw new InconsistentStateException("Could not check the graph since there is no vertices");
         }
         return breadthFirstSearchTraverse().entrySet()
                 .stream()
@@ -142,6 +143,12 @@ class Graph {
                 .filter(Map.Entry::getValue)
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
+    }
+
+    private void validateVertexName(String name) {
+        if (vertices.stream().anyMatch(vertex -> vertex.isEqualsByName(name))) {
+            throw new UniqueNameConstraintException(format("Vertex with name %s already exists in the graph", name));
+        }
     }
 
 }

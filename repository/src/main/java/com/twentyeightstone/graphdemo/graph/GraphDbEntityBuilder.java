@@ -1,5 +1,6 @@
 package com.twentyeightstone.graphdemo.graph;
 
+import com.twentyeightstone.graphdemo.DbRootEntityBuilder;
 import com.twentyeightstone.graphdemo.entities.BaseDbEntity;
 import com.twentyeightstone.graphdemo.entities.EdgeDbEntity;
 import com.twentyeightstone.graphdemo.entities.GraphDbEntity;
@@ -13,10 +14,10 @@ import java.util.stream.Collectors;
 import static java.util.function.Function.identity;
 
 @Component
-public class DbEntityBuilder {
+class GraphDbEntityBuilder implements DbRootEntityBuilder<GraphDbEntity, GraphAggregate> {
 
-    public GraphDbEntity buildEntities(GraphAggregate aggregate) {
-        //todo throw exception if null graph
+    @Override
+    public GraphDbEntity build(GraphAggregate aggregate) {
         Graph graph = aggregate.getGraph();
         var graphDbEntity = buildGraph(graph);
 
@@ -29,7 +30,7 @@ public class DbEntityBuilder {
         return graphDbEntity;
     }
 
-    GraphDbEntity buildGraph(Graph graph) {
+    private GraphDbEntity buildGraph(Graph graph) {
         return GraphDbEntity.builder()
                 .id(graph.getGraphId())
                 .name(graph.getGraphName())
@@ -43,7 +44,7 @@ public class DbEntityBuilder {
                 .collect(Collectors.toList());
     }
 
-    VertexDbEntity buildAndAssignVertex(Vertex vertex, GraphDbEntity graph) {
+    private VertexDbEntity buildAndAssignVertex(Vertex vertex, GraphDbEntity graph) {
         var vertexDbEntity = VertexDbEntity.builder()
                 .id(vertex.getId())
                 .name(vertex.getName())

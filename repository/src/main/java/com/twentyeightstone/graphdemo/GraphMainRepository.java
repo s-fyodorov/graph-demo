@@ -4,14 +4,15 @@ import com.twentyeightstone.graphdemo.dao.EdgeDAO;
 import com.twentyeightstone.graphdemo.dao.GraphDAO;
 import com.twentyeightstone.graphdemo.dao.VertexDAO;
 import com.twentyeightstone.graphdemo.dto.output.BaseOutputDTO;
-import com.twentyeightstone.graphdemo.graph.DbEntityBuilder;
-import com.twentyeightstone.graphdemo.graph.DomainBuilder;
+import com.twentyeightstone.graphdemo.entities.GraphDbEntity;
+import com.twentyeightstone.graphdemo.exception.EntityNotFoundException;
 import com.twentyeightstone.graphdemo.graph.GraphAggregate;
 import com.twentyeightstone.graphdemo.repository.GraphRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -24,13 +25,13 @@ class GraphMainRepository implements GraphRepository {
     private final GraphDAO graphDAO;
     private final VertexDAO vertexDAO;
     private final EdgeDAO edgeDAO;
-    private final DbEntityBuilder dbEntityBuilder;
-    private final DomainBuilder domainBuilder;
+    private final DbRootEntityBuilder<GraphDbEntity, GraphAggregate> dbEntityBuilder;
+    private final DomainBuilder<GraphAggregate, GraphDbEntity> aggregateBuilder;
 
     @Override
     @Transactional
     public void save(GraphAggregate aggregate) {
-        graphDAO.save(dbEntityBuilder.buildEntities(aggregate));
+        graphDAO.save(dbEntityBuilder.build(aggregate));
         deleteRemovedVertices(aggregate);
         deleteRemovedEdges(aggregate);
     }
@@ -52,18 +53,22 @@ class GraphMainRepository implements GraphRepository {
     @Override
     public Optional<GraphAggregate> retrieveById(Long id) {
         return graphDAO.findById(id)
-                .map(domainBuilder::buildAggregate);
+                .map(aggregateBuilder::buildAggregate);
     }
 
     @Override
     public Optional<GraphAggregate> retrieveByName(String name) {
         return graphDAO.findGraphDbEntityByName(name)
-                .map(domainBuilder::buildAggregate);
+                .map(aggregateBuilder::buildAggregate);
     }
 
     @Override
     public void delete(Long id) {
-        graphDAO.deleteById(id);
+        try {
+            graphDAO.deleteById(id);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new EntityNotFoundException(String.format("Graph with id %s is not exist", id));
+        }
     }
 
     @Override
