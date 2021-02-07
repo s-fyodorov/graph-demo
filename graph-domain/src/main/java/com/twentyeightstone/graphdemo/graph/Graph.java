@@ -1,7 +1,7 @@
 package com.twentyeightstone.graphdemo.graph;
 
-import com.twentyeightstone.graphdemo.exception.InconsistentStateException;
 import com.twentyeightstone.graphdemo.exception.EntityNotFoundException;
+import com.twentyeightstone.graphdemo.exception.InconsistentStateException;
 import com.twentyeightstone.graphdemo.exception.UniqueNameConstraintException;
 import lombok.AccessLevel;
 import lombok.Getter;

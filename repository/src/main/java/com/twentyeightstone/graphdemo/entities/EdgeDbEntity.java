@@ -1,7 +1,6 @@
 package com.twentyeightstone.graphdemo.entities;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

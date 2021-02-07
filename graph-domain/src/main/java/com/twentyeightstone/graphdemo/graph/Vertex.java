@@ -1,6 +1,5 @@
 package com.twentyeightstone.graphdemo.graph;
 
-import com.twentyeightstone.graphdemo.exception.UniqueNameConstraintException;
 import lombok.AccessLevel;
 import lombok.Getter;
 
@@ -9,8 +8,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static java.lang.String.format;
 
 @Getter(AccessLevel.PACKAGE)
 class Vertex {
