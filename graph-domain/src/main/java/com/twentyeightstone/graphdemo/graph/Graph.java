@@ -4,10 +4,12 @@ import lombok.AccessLevel;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.util.function.Function.identity;
@@ -22,6 +24,9 @@ class Graph {
 
     @Getter(AccessLevel.PACKAGE)
     private final List<Vertex> vertices = new ArrayList<>();
+
+    @Getter(AccessLevel.PACKAGE)
+    private final List<Vertex> removedVertices = new ArrayList<>();
 
     public Graph(Long graphId, String graphName) {
         this.graphId = graphId;
@@ -38,19 +43,21 @@ class Graph {
         vertices.add(new Vertex(id, name));
     }
 
-    void addEdge(String edgeName, Long edgeId, String sourceVertexName, String targetVertexName) {
-        Vertex sourceVertex = findVertexByName(sourceVertexName);
-        Vertex targetVertex = findVertexByName(targetVertexName);
+    void addEdge(String edgeName, Long edgeId, String tailFromVertexName, String headToVertexName) {
+        Vertex sourceVertex = findVertexByName(tailFromVertexName);
+        Vertex targetVertex = findVertexByName(headToVertexName);
         sourceVertex.addEdge(edgeId, edgeName, targetVertex);
     }
 
     void removeVertex(String name) {
         Vertex vertexToRemove = findVertexByName(name);
+        removedVertices.add(vertexToRemove);
         vertices.remove(vertexToRemove);
         vertices.forEach(vertex -> vertex.removeDirectEdgesTo(vertexToRemove));
     }
 
     void removeAllVertices() {
+        removedVertices.addAll(vertices);
         vertices.clear();
     }
 
@@ -76,11 +83,26 @@ class Graph {
                 .orElseThrow(() -> new RuntimeException("")); //todo throw correct exception
     }
 
+    Set<Long> getRemovedVerticesIds() {
+        return removedVertices
+                .stream()
+                .map(Vertex::getId)
+                .collect(Collectors.toSet());
+    }
+
+    Set<Long> getRemovedEdgesIds() {
+        return vertices
+                .stream()
+                .map(Vertex::getRemovedEdgesIds)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toSet());
+    }
+
     boolean isConnected() {
         if(vertices.isEmpty()) { //todo return exception invalid state
             return false;
         }
-        return breadthFirstSearch().entrySet()
+        return breadthFirstSearchTraverse().entrySet()
                 .stream()
                 .allMatch(entry -> entry.getValue().containsAll(vertices));
     }
@@ -92,11 +114,11 @@ class Graph {
     // -- ReportPerVertex ->
     // ----- List<VertexName>
 
-    private Map<Vertex, List<Vertex>> breadthFirstSearch() {
-        return vertices.stream().collect(Collectors.toMap(identity(), this::breadthFirstSearch));
+    private Map<Vertex, List<Vertex>> breadthFirstSearchTraverse() {
+        return vertices.stream().collect(Collectors.toMap(identity(), this::breadthFirstSearchTraverse));
     }
 
-    private List<Vertex> breadthFirstSearch(Vertex vertex) {
+    private List<Vertex> breadthFirstSearchTraverse(Vertex vertex) {
         Map<Vertex, Boolean> visited = vertices.stream()
                 .collect(Collectors.toMap(identity(), v -> false));
 
@@ -109,10 +131,10 @@ class Graph {
 
             polledVertex.getEdges()
                     .stream()
-                    .filter(edge -> !visited.get(edge.getDirectedToVertex()))
+                    .filter(edge -> !visited.get(edge.getHeadToVertex()))
                     .forEach(edge -> {
-                        visited.put(edge.getDirectedToVertex(), true);
-                        queue.add(edge.getDirectedToVertex());
+                        visited.put(edge.getHeadToVertex(), true);
+                        queue.add(edge.getHeadToVertex());
                     });
         }
         return visited.entrySet()

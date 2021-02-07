@@ -4,6 +4,8 @@ import com.twentyeightstone.graphdemo.Aggregate;
 import lombok.AccessLevel;
 import lombok.Getter;
 
+import java.util.Set;
+
 public class GraphAggregate implements Aggregate {
 
     @Getter(AccessLevel.PACKAGE)
@@ -25,8 +27,8 @@ public class GraphAggregate implements Aggregate {
         graph.addEdge(edgeName, null, sourceVertexName, targetVertexName);
     }
 
-    void addEdge(String edgeName, Long edgeId, String sourceVertexName, String targetVertexName) {
-        graph.addEdge(edgeName, edgeId, sourceVertexName, targetVertexName);
+    void addEdge(String edgeName, Long edgeId, String tailFromVertexName, String headToVertexName) {
+        graph.addEdge(edgeName, edgeId, tailFromVertexName, headToVertexName);
     }
 
     public void removeVertex(String name) {
@@ -51,6 +53,14 @@ public class GraphAggregate implements Aggregate {
 
     public boolean isConnected() {
         return graph.isConnected();
+    }
+
+    public Set<Long> getRemovedVerticesIds() {
+        return graph.getRemovedVerticesIds();
+    }
+
+    public Set<Long> getRemovedEdgesIds() {
+        return graph.getRemovedEdgesIds();
     }
 
     public static class GraphBuilder {

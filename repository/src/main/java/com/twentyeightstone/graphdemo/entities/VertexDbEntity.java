@@ -24,10 +24,10 @@ public class VertexDbEntity extends BaseDbEntity {
     @JoinColumn(name = "graph_id")
     private GraphDbEntity graph;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "directedFromVertex", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "tailFromVertex", orphanRemoval = true)
     private List<EdgeDbEntity> outcomeEdges = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "directedToVertex", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "headToVertex", orphanRemoval = true)
     private List<EdgeDbEntity> incomeEdges = new ArrayList<>();
 
     @Builder
@@ -38,12 +38,12 @@ public class VertexDbEntity extends BaseDbEntity {
 
     public void addOutComeEdge(EdgeDbEntity edge) {
         outcomeEdges.add(edge);
-        edge.setDirectedFromVertex(this);
+        edge.setTailFromVertex(this);
     }
 
     public void addIncomeEdge(EdgeDbEntity edge) {
         incomeEdges.add(edge);
-        edge.setDirectedToVertex(this);
+        edge.setHeadToVertex(this);
     }
 
 }

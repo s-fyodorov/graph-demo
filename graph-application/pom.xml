@@ -45,7 +45,7 @@
 
         <dependency>
             <groupId>com.twentyeightstone</groupId>
-            <artifactId>domain</artifactId>
+            <artifactId>graph-domain</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

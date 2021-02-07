@@ -2,18 +2,18 @@ package com.twentyeightstone.graphdemo.graph;
 
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Builder
+@EqualsAndHashCode
+@Getter(AccessLevel.PACKAGE)
 class Edge {
 
-    @Getter(AccessLevel.PACKAGE)
-    private Long id;
+    private final Long id;
 
-    @Getter(AccessLevel.PACKAGE)
     private final String name;
 
-    @Getter(AccessLevel.PACKAGE)
-    private final Vertex directedToVertex;
+    private final Vertex headToVertex;
 
 }

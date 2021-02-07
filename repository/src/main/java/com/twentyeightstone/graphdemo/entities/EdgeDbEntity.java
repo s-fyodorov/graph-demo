@@ -17,17 +17,17 @@ import javax.persistence.ManyToOne;
 public class EdgeDbEntity extends BaseDbEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "directed_from_vertex_id")
-    private VertexDbEntity directedFromVertex;
+    @JoinColumn(name = "tail_vertex_id")
+    private VertexDbEntity tailFromVertex;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "directed_to_vertex_id")
-    private VertexDbEntity directedToVertex;
+    @JoinColumn(name = "head_vertex_id")
+    private VertexDbEntity headToVertex;
 
     @Builder
-    public EdgeDbEntity(Long id, String name, VertexDbEntity directedFromVertex, VertexDbEntity directedToVertex) {
+    public EdgeDbEntity(Long id, String name, VertexDbEntity tailFromVertex, VertexDbEntity headToVertex) {
         super(id, name);
-        this.directedFromVertex = directedFromVertex;
-        this.directedToVertex = directedToVertex;
+        this.tailFromVertex = tailFromVertex;
+        this.headToVertex = headToVertex;
     }
 }

@@ -7,14 +7,11 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
-public class EdgeInputDTO {
+public class DeleteEdgeDTO {
 
     @NotBlank
-    private String edgeName;
+    private String firstVertexName;
 
     @NotBlank
-    private String fromVertexName;
-
-    @NotBlank
-    private String toVertexName;
+    private String secondVertexName;
 }

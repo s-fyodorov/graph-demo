@@ -11,7 +11,7 @@
     </parent>
 
     <modules>
-        <module>domain</module>
+        <module>graph-domain</module>
         <module>repository</module>
         <module>service-application</module>
         <module>graph-application</module>

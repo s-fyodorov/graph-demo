@@ -28,8 +28,8 @@ public class DomainBuilder {
                 .forEach(edge -> aggregate.addEdge(
                         edge.getName(),
                         edge.getId(),
-                        edge.getDirectedFromVertex().getName(),
-                        edge.getDirectedToVertex().getName()
+                        edge.getTailFromVertex().getName(),
+                        edge.getHeadToVertex().getName()
                 ));
     }
 }

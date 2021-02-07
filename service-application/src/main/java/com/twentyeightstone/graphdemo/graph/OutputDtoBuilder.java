@@ -45,8 +45,8 @@ public class OutputDtoBuilder {
         return EdgeOutputDTO.builder()
                 .id(edge.getId())
                 .name(edge.getName())
-                .headVertexId(edge.getDirectedToVertex().getId())
-                .headVertexName(edge.getDirectedToVertex().getName())
+                .headVertexId(edge.getHeadToVertex().getId())
+                .headVertexName(edge.getHeadToVertex().getName())
                 .build();
     }
 }

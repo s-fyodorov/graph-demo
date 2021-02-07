@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 public class GraphDbEntity extends BaseDbEntity {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "graph", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "graph", orphanRemoval = true)
     private List<VertexDbEntity> vertices = new ArrayList<>();
 
     @Builder

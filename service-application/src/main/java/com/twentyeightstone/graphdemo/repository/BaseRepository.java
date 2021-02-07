@@ -13,7 +13,7 @@ public interface BaseRepository<T extends Aggregate> {
 
     void save(T aggregate);
 
-    List<T> retrieveAll();
-
     Optional<T> retrieveById(Long id);
+
+    void delete(Long id);
 }
