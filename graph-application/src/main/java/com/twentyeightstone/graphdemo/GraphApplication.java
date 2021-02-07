@@ -1,4 +1,4 @@
-package com.twentyeightstone.graphdemo.graphapplication;
+package com.twentyeightstone.graphdemo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

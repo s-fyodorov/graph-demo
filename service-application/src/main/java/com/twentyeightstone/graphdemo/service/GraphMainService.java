@@ -1,6 +1,7 @@
 package com.twentyeightstone.graphdemo.service;
 
 import com.twentyeightstone.graphdemo.dto.input.EdgeInputDTO;
+import com.twentyeightstone.graphdemo.graph.GraphAggregate;
 import com.twentyeightstone.graphdemo.graph.OutputDtoBuilder;
 import com.twentyeightstone.graphdemo.repository.GraphRepository;
 import com.twentyeightstone.graphdemo.dto.output.GraphOutputDTO;

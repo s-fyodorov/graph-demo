@@ -1,4 +1,4 @@
-package com.twentyeightstone.graphdemo.graphapplication.controller;
+package com.twentyeightstone.graphdemo.controller;
 
 import com.twentyeightstone.graphdemo.dto.output.GraphOutputDTO;
 import com.twentyeightstone.graphdemo.service.GraphService;
