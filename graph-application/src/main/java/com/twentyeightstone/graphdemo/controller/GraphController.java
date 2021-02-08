@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @RestController
@@ -24,7 +26,7 @@ public class GraphController {
     private final GraphService graphService;
 
     @PostMapping
-    public ResponseEntity<BaseOutputDTO> createGraph(@RequestParam String graphName) {
+    public ResponseEntity<BaseOutputDTO> createGraph(@RequestParam @NotBlank @Valid String graphName) {
         var createdGraph = graphService.createGraph(graphName);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdGraph);
     }
@@ -41,7 +43,7 @@ public class GraphController {
     }
 
     @GetMapping("/name/{graphName}")
-    public ResponseEntity<GraphOutputDTO> getGraphStructure(@PathVariable String graphName) {
+    public ResponseEntity<GraphOutputDTO> getGraphStructure(@PathVariable @NotBlank @Valid String graphName) {
         return ResponseEntity.ok(graphService.getGraphStructure(graphName));
     }
 

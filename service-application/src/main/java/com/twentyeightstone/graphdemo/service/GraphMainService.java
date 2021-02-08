@@ -50,7 +50,7 @@ class GraphMainService implements GraphService {
     @Transactional
     public BaseOutputDTO createGraph(String graphName) {
         if (repository.isExistByName(graphName)) {
-            throw new UniqueNameConstraintException("Graph with name %s already exists");
+            throw new UniqueNameConstraintException(format("Graph with name %s already exists", graphName));
         }
         var aggregate = new GraphAggregate.GraphBuilder()
                 .withName(graphName)

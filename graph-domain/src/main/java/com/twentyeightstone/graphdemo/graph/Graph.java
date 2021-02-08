@@ -78,7 +78,7 @@ class Graph {
         vertices.forEach(Vertex::removeAllEdges);
     }
 
-    private Vertex findVertexByName(String name) {
+    Vertex findVertexByName(String name) {
         return vertices.stream().filter(vertex -> vertex.isEqualsByName(name))
                 .findFirst()
                 .orElseThrow(() -> new EntityNotFoundException(format("Vertex with name %s is not found in the graph", name)));
@@ -107,13 +107,6 @@ class Graph {
                 .stream()
                 .allMatch(entry -> entry.getValue().containsAll(vertices));
     }
-
-    //todo getFullyConnectedVertices()
-    // -- List<Name>
-    //todo getNonFullyConnectedVertices()
-    // -- List<ReportPerVertex>
-    // -- ReportPerVertex ->
-    // ----- List<VertexName>
 
     private Map<Vertex, List<Vertex>> breadthFirstSearchTraverse() {
         return vertices.stream().collect(Collectors.toMap(identity(), this::breadthFirstSearchTraverse));
