@@ -103,9 +103,8 @@ class Graph {
         if (vertices.isEmpty()) {
             throw new InconsistentStateException("Could not check the graph since there is no vertices");
         }
-        return breadthFirstSearchTraverse().entrySet()
-                .stream()
-                .allMatch(entry -> entry.getValue().containsAll(vertices));
+        return breadthFirstSearchTraverse(vertices.get(0))
+                .containsAll(vertices);
     }
 
     private Map<Vertex, List<Vertex>> breadthFirstSearchTraverse() {
